@@ -1,19 +1,18 @@
 use std::fs;
 
 fn main() {
+    println!("apply square : {}", apply(2, square));
+    println!("apply cube : {}", apply(3, cube));
+}
 
-    let url = "https://rust-lang.com/";
+fn apply(v: i32, fun: fn(i32) -> i32) -> i32{
+    fun(v)
+}
 
-    let body = reqwest::blocking::get(url).unwrap().text().unwrap();
+fn square(v: i32) -> i32{
+    v * v
+}
 
-    println!("body = {body:?}");
-
-    let md = html2md::parse_html(&body);
-
-    let result = fs::write("rust.md", md.as_bytes());
-    
-    match result { 
-        Ok(_) => println!("File written successfully"),
-        Err(e) => println!("Error writing file: {}", e),
-    }
+fn cube(v: i32) -> i32{
+    v * v * v
 }

@@ -1,20 +1,29 @@
-use std::cell::RefCell;
-use std::rc::Rc;
+use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 
-#[derive(Debug)]
-struct Node{
-    id: usize,
-    next: Option<Rc<Node>>,
+#[get("/")]
+async fn hello() -> impl Responder {
+    HttpResponse::Ok().body("Hello world!")
 }
 
-fn main() {
-    let v = RefCell::new(1);
-    {
-        let mut ref_mut = v.borrow_mut();
-        
-        // 解引用
-        *ref_mut += 1;
-    }
-    println!("{:?}", v.borrow()); // Output: 2
+#[post("/echo")]
+async fn echo(req_body: String) -> impl Responder {
+    HttpResponse::Ok().body(req_body)
+}
+
+async fn manual_hello() -> impl Responder {
+    HttpResponse::Ok().body("Hey there!")
+}
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()>{
+    HttpServer::new(|| {
+        App::new()
+            .service(hello)
+            .service(echo)
+            .route("/hey", web::get().to(manual_hello))
+    })
+    .bind(("127.0.0.1", 8081))?
+    .run()
+    .await
 }
 

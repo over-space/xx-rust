@@ -1,29 +1,40 @@
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use std::rc::Rc;
 
-#[get("/")]
-async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
+#[derive(Debug)]
+struct Node{
+    id:usize,
+    next:Option<Rc<Node>>,
 }
 
-#[post("/echo")]
-async fn echo(req_body: String) -> impl Responder {
-    HttpResponse::Ok().body(req_body)
+impl Node {
+
+    fn new(id: usize) -> Self {
+        Self{
+            id,
+            next: None,
+        }
+    }    
+
+    fn update_next(&mut self, next: Rc<Node>){
+        self.next = Some(next);
+    }
+
+    fn get_next(&self) -> Option<Rc<Node>>{
+        self.next.as_ref().map(|v| v.clone())
+    }
+
 }
 
-async fn manual_hello() -> impl Responder {
-    HttpResponse::Ok().body("Hey there!")
-}
+fn main() {
+    
+    let mut node1 = Node::new(1);
+    let mut node2 = Node::new(2);
+    let mut node3 = Node::new(3);
 
-#[actix_web::main]
-async fn main() -> std::io::Result<()>{
-    HttpServer::new(|| {
-        App::new()
-            .service(hello)
-            .service(echo)
-            .route("/hey", web::get().to(manual_hello))
-    })
-    .bind(("127.0.0.1", 8081))?
-    .run()
-    .await
+    let node4 = Node::new(4);
+    node3.update_next(Rc::new(node4));
+    node1.update_next(Rc::new(node3));
+    node2.update_next(node1.get_next().unwrap());
+    println!("node1: {:?}", node1);
+    println!("node2: {:?}", node2);
 }
-

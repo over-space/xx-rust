@@ -1,5 +1,7 @@
 {
-    "files.watcherExclude": {
-        "**/target": true
-    }
+    "code-runner.executorMap": {
+        "rust": "cargo run"
+    },
+    "code-runner.runInTerminal": true,
+    "code-runner.clearPreviousOutput": true
 }

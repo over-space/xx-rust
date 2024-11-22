@@ -6,3 +6,4 @@ edition = "2021"
 [dependencies]
 reqwest = "0.12.9"
 html2md = "0.2.14"
+common ={ path = "./common"}

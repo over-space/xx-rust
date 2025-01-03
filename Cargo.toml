@@ -6,3 +6,10 @@ edition = "2021"
 [dependencies]
 reqwest = "0.12.9"
 html2md = "0.2.14"
+regex = "1.11.1"
+
+[dev-dependencies]
+
+[test-dependencies]
+
+[release-dependencies]

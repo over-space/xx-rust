@@ -3,5 +3,11 @@
         "rust": "cargo run"
     },
     "code-runner.runInTerminal": true,
-    "code-runner.clearPreviousOutput": true
+    "code-runner.clearPreviousOutput": true,
+    "macros": {
+        "commentAndMove": [
+            "editor.action.commentLine",
+            "cursorDown"
+        ]
+    }
 }

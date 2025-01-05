@@ -4,5 +4,5 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-reqwest = "0.12.9"
-html2md = "0.2.14"
+tracing = "0.1.41"
+tracing-subscriber = "0.3.19"
